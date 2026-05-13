@@ -3,6 +3,7 @@ import '../services/api_services.dart';
 import '../services/shared_pref.dart';
 import 'docDetail_screen.dart';
 import 'profile_screen.dart';
+import 'add_vitals_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -256,6 +257,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const ProfileScreen()),
+                    );
+                  }),
+                  // Bottom Nav mein add karo:
+                  _navItem(Icons.monitor_heart_outlined, 'Vitals', false, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const AddVitalsScreen(),
+                      ),
                     );
                   }),
                 ],

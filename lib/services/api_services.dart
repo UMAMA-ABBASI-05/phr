@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Android emulator → 10.0.2.2  |  real device → your PC IP e.g. 192.168.1.x
-  static const String baseUrl = 'http://192.168.16.14:8004';
+  static const String baseUrl = 'http://192.168.100.143:8004';
 
   // ── Auth ─────────────────────────────────────────────────────────────────
   static Future<Map<String, dynamic>> login(String nic, String password) async {
