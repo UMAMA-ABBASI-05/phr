@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/api_services.dart';
 import '../services/shared_pref.dart';
 import 'signup_screen.dart';
-import 'home_screen.dart';
+import 'hospitals_screen.dart'; // <-- changed
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -28,7 +28,9 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
+        MaterialPageRoute(
+          builder: (_) => const HospitalsScreen(),
+        ), // <-- changed
       );
     } catch (e) {
       setState(() => _error = e.toString().replaceAll('Exception: ', ''));

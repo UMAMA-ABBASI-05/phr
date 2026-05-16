@@ -3,7 +3,44 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Android emulator → 10.0.2.2  |  real device → your PC IP e.g. 192.168.1.x
-  static const String baseUrl = 'http://192.168.100.143:8004';
+  static const String baseUrl = 'http://192.168.51.14:8004';
+  static Future<List<dynamic>> getAllHospitals() async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/all_hospitals'),
+      headers: {'Content-Type': 'application/json'},
+    );
+    final body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return body is List ? body : (body['data'] ?? body['hospitals'] ?? []);
+    }
+    throw Exception(body['detail'] ?? 'Failed to load hospitals');
+  }
+
+  static Future<List<dynamic>> getDoctorsByHospital(String hospitalId) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/get-doctors/hosptial/$hospitalId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+    final body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return body is List ? body : (body['data'] ?? body['doctors'] ?? []);
+    }
+    throw Exception(body['detail'] ?? 'Failed to load doctors');
+  }
+
+  static Future<Map<String, dynamic>> getDoctorById(String doctorId) async {
+    final response = await http.get(
+      Uri.parse('$baseUrl/single-doctor/$doctorId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+    final body = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      return body is Map<String, dynamic>
+          ? body
+          : (body['data'] ?? body['doctor'] ?? {});
+    }
+    throw Exception(body['detail'] ?? 'Failed to load doctor details');
+  }
 
   // ── Auth ─────────────────────────────────────────────────────────────────
   static Future<Map<String, dynamic>> login(String nic, String password) async {
