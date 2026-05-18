@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // Android emulator → 10.0.2.2  |  real device → your PC IP e.g. 192.168.1.x
-  static const String baseUrl = 'http://192.168.51.14:8004';
+  static const String baseUrl = 'http://192.168.100.143:8004';
   static Future<List<dynamic>> getAllHospitals() async {
     final response = await http.get(
       Uri.parse('$baseUrl/all_hospitals'),

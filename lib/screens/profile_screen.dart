@@ -128,6 +128,33 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: InkWell(
+                      onTap: () =>
+                          Navigator.popUntil(context, (r) => r.isFirst),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.monitor_heart_outlined,
+                              color: Color.fromARGB(255, 87, 157, 238),
+                              size: 24,
+                            ),
+                            SizedBox(height: 2),
+                            Text(
+                              'Vitals',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Color.fromARGB(255, 87, 157, 238),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
                       onTap: () {},
                       child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),

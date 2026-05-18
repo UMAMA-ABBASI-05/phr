@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phr/screens/add_vitals_screen.dart';
 import 'package:phr/screens/hospital_doctor_screen.dart';
 import '../services/api_services.dart';
 import '../services/shared_pref.dart';
@@ -294,6 +295,37 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
                             fontSize: 11,
                             color: Color(0xFF4285F4),
                             fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const AddVitalsScreen(),
+                        ),
+                      );
+                    },
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.monitor_heart_outlined,
+                          color: Color(0xFF888888),
+                          size: 26,
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          'Vitals',
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF888888),
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:phr/screens/add_vitals_screen.dart';
+import 'package:phr/screens/profile_screen.dart';
 import '../services/api_services.dart';
 import 'lab_results_screen.dart';
 
@@ -272,7 +274,53 @@ class _VisitNoteDetailScreenState extends State<VisitNoteDetailScreen> {
                   ),
                   Expanded(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AddVitalsScreen(
+                              // noteId: widget.noteId,
+                              // noteTitle: widget.noteTitle,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.monitor_heart_outlined,
+                              color: const Color.fromARGB(255, 19, 17, 17),
+                              size: 24,
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Vitals',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey.shade400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ProfileScreen(
+                              // noteId: widget.noteId,
+                              // noteTitle: widget.noteTitle,
+                            ),
+                          ),
+                        );
+                      },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Column(
