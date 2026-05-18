@@ -307,7 +307,8 @@ class _HospitalsScreenState extends State<HospitalsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const AddVitalsScreen(),
+                          builder: (_) =>
+                              AddVitalsScreen(patientNic: SessionService().nic),
                         ),
                       );
                     },

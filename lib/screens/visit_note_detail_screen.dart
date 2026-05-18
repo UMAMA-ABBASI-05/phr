@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phr/screens/add_vitals_screen.dart';
 import 'package:phr/screens/profile_screen.dart';
+import 'package:phr/services/shared_pref.dart';
 import '../services/api_services.dart';
 import 'lab_results_screen.dart';
 
@@ -279,8 +280,7 @@ class _VisitNoteDetailScreenState extends State<VisitNoteDetailScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (_) => AddVitalsScreen(
-                              // noteId: widget.noteId,
-                              // noteTitle: widget.noteTitle,
+                              patientNic: SessionService().nic,
                             ),
                           ),
                         );

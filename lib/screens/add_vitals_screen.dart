@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
+import 'show_vitals_screen.dart';
 
 class AddVitalsScreen extends StatefulWidget {
-  const AddVitalsScreen({super.key});
+  final String patientNic;
+  const AddVitalsScreen({super.key, required this.patientNic});
 
   @override
   State<AddVitalsScreen> createState() => _AddVitalsScreenState();
 }
 
 class _AddVitalsScreenState extends State<AddVitalsScreen> {
-  // Selected vital type
   String _selectedVital = 'BP';
 
-  // BP controllers
   final _systolicCtrl = TextEditingController();
   final _diastolicCtrl = TextEditingController();
-
-  // Temperature controller
   final _tempCtrl = TextEditingController();
-
-  // Sugar controllers
-  String _mealTime = 'Before Meal';
   final _sugarCtrl = TextEditingController();
 
+  String _mealTime = 'Before Meal';
   bool _saving = false;
 
   static const Color primaryBlue = Color.fromARGB(255, 6, 41, 99);
@@ -37,7 +33,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
   }
 
   Future<void> _save() async {
-    // Validation
     if (_selectedVital == 'BP') {
       if (_systolicCtrl.text.isEmpty || _diastolicCtrl.text.isEmpty) {
         _showSnack('Please enter both BP values');
@@ -58,7 +53,7 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
     setState(() => _saving = true);
 
     try {
-      // TODO: API call
+      // TODO: Replace with your actual API call
       Map<String, dynamic> data = {};
       if (_selectedVital == 'BP') {
         data = {
@@ -66,21 +61,28 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
           'systolic': _systolicCtrl.text,
           'diastolic': _diastolicCtrl.text,
           'unit': 'mmHg',
+          'nic': widget.patientNic,
         };
       } else if (_selectedVital == 'Temperature') {
-        data = {'type': 'Temperature', 'value': _tempCtrl.text, 'unit': 'F'};
+        data = {
+          'type': 'Temperature',
+          'value': _tempCtrl.text,
+          'unit': 'F',
+          'nic': widget.patientNic,
+        };
       } else {
         data = {
           'type': 'Sugar',
           'meal_time': _mealTime,
           'value': _sugarCtrl.text,
           'unit': 'mg/dL',
+          'nic': widget.patientNic,
         };
       }
 
       print('Vitals data: $data');
 
-      await Future.delayed(const Duration(milliseconds: 500)); // placeholder
+      await Future.delayed(const Duration(milliseconds: 500));
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -111,10 +113,10 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Header
+            // ── Header ──
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(24, 20, 24, 28),
+              padding: const EdgeInsets.fromLTRB(8, 20, 16, 28),
               decoration: const BoxDecoration(
                 color: Color(0xFFD6EAF8),
                 borderRadius: BorderRadius.only(
@@ -140,6 +142,42 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
                       color: darkBlue,
                     ),
                   ),
+                  const Spacer(),
+                  TextButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                              ShowVitalsScreen(patientNic: widget.patientNic),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.list_alt_rounded,
+                      color: primaryBlue,
+                      size: 18,
+                    ),
+                    label: const Text(
+                      'Show Vitals',
+                      style: TextStyle(
+                        color: primaryBlue,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
+                    ),
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: const BorderSide(color: primaryBlue, width: 1),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -152,6 +190,39 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
                   children: [
                     const SizedBox(height: 8),
 
+                    // Patient NIC info
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEAF2FF),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: const Color(0xFFBDD5F5)),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.badge_outlined,
+                            size: 16,
+                            color: primaryBlue,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            'Patient NIC: ${widget.patientNic}',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: primaryBlue,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
                     // Vital Type Selection
                     const Text(
                       'Select Vital Type',
@@ -163,7 +234,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
                     ),
                     const SizedBox(height: 12),
 
-                    // Radio Buttons — BP, Sugar, Temperature
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -229,6 +299,7 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
                               ),
                       ),
                     ),
+                    const SizedBox(height: 16),
                   ],
                 ),
               ),
@@ -239,7 +310,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
     );
   }
 
-  // BP Fields
   Widget _buildBPFields() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,7 +348,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
     );
   }
 
-  // Temperature Fields
   Widget _buildTempFields() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,7 +371,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
     );
   }
 
-  // Sugar Fields
   Widget _buildSugarFields() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -316,8 +384,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
           ),
         ),
         const SizedBox(height: 12),
-
-        // Before/After Meal Radio
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -346,7 +412,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
           ),
         ),
         const SizedBox(height: 12),
-
         _buildInputField(
           controller: _sugarCtrl,
           label: 'Sugar Value',
@@ -357,7 +422,6 @@ class _AddVitalsScreenState extends State<AddVitalsScreen> {
     );
   }
 
-  // Reusable Input Field with unit
   Widget _buildInputField({
     required TextEditingController controller,
     required String label,
